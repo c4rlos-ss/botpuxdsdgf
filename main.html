@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    <script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+    <style>
+    .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+    .button-container button {
+            margin-right:  5px; /* Espaçamento entre os botões */
+        }
+        @keyframes loading {
+          0% { opacity: 0.2; }
+          50% { opacity: 1; }
+          100% { opacity: 0.2; }
+        }
+
+      .loading-text {
+          animation: loading 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <header class="cabecalho">
+        <img src="logo.png" alt="Logo" class="logo">
+        <a href="mailto:seuemail@exemplo.com" class="botao-contato">Contato</a>
+    </header>
+    
+    <div class="container">
+        <section class="banner">
+            <img src="banner.jpg" alt="Descrição da Imagem do Banner">
+        </section>
+        <h1>Consulta</h1>
+        <form action="/action_page.php" onsubmit="event.preventDefault(); submitForm()">
+            <div class="input-wrapper">
+                <select id="type">
+                    <option value="telefone">Telefone</option>
+                    <option value="placa">Placa de Carro</option>
+                    <option value="nome">Nome</option>
+                    <option value="cpf1">CPF1</option>
+                    <option value="cpf2">CPF2</option>
+                    <option value="cpf3">CPF3</option>
+                </select>
+                <input type="text" id="inputText">
+            </div>
+            <br><br>
+            <center>
+            <button type="submit" id="searchButton" disabled>Consultar</button>
+                </center>
+        <center>
+            <div class="h-captcha" data-sitekey="fc7357d0-cdb5-4bda-92f7-4d12c33b1442" data-callback="enableSubmitButton"></div>
+            </center>
+            <div class="result-container">
+                <h2>Resultado da Pesquisa abaixo</h2>
+                <textarea id="searchResult" rows="1" style="resize: none; cursor:pointer;" readonly oninput="enableActionButtons()" onclick="openLinkOrCopyText()"></textarea>
+            </div>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+   let searchButtonClicks = 0; // Contador de cliques
+   let longPressTimer;
+   let isLongPress = false;
+
+function preventDefault(event) {
+    event.preventDefault();
+}
+
+function enableSubmitButton() {
+    const searchButton = document.getElementById("searchButton");
+    searchButton.disabled = false;
+    searchButton.style.opacity = "1";
+    searchButton.style.pointerEvents = "auto";
+
+    // Adicione um evento de clique ao botão de pesquisa
+    searchButton.addEventListener('click', function() {
+        searchButtonClicks++; // Incrementa a contagem de cliques
+        if (searchButtonClicks >= 2) { // Se o botão foi clicado duas vezes
+            searchButton.disabled = true; // Desabilita o botão
+            searchButton.style.opacity = "0.5"; // Altera a aparência do botão
+            searchButton.style.pointerEvents = "none"; // Impede cliques adicionais
+
+            // Redefine o captcha para um novo desafio
+            hcaptcha.reset();
+        }
+    });
+}
+
+function submitForm() {
+  // Limpa qualquer resultado anterior
+  document.getElementById('searchResult').value = '';
+  
+  // Adiciona o texto de carregamento com animação
+  document.getElementById('searchResult').classList.add('loading-text');
+  document.getElementById('searchResult').value = 'Carregando resultado...';
+  
+  // Aqui vai a lógica para enviar a mensagem para o Ably
+  // Simulação de envio de mensagem
+  setTimeout(function() {
+    handleMessageReceived({data: "Resultado da consulta"});
+  }, 2000); // Simula um delay de 2 segundos
+}
+
+function handleMessageReceived(message) {
+  // Remove a animação e atualiza o valor com a mensagem recebida
+  document.getElementById('searchResult').classList.remove('loading-text');
+  document.getElementById('searchResult').value = message.data; // Supondo que `message.data` contenha a mensagem recebida
+}
+
+function handleResultAreaPress() {
+    var result = document.getElementById('searchResult');
+    if (result.value.trim()!== '') {
+        longPressTimer = setTimeout(() => {
+            isLongPress = true;
+            navigator.clipboard.writeText(result.value).then(() => {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Texto copiado!',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    toast: true
+                });
+            }, () => {
+                console.error('Erro ao copiar texto');
+            });
+        }, 1000); // 1 segundo
+    }
+}
+
+function handleResultAreaRelease(event) {
+    clearTimeout(longPressTimer); // Cancela a ação de cópia se o pressionamento for liberado antes de 1 segundo
+    var result = document.getElementById('searchResult');
+    if (result.value.trim()!== '' &&isLongPress) {
+        try {
+            new URL(result.value);
+            window.open(result.value, '_blank');
+        } catch (_) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'O texto não é um URL válido!',
+            })
+        }
+    }
+    isLongPress = false; // Reset para o próximo evento
+}
+
+// Adiciona os eventos de mousedown e mouseup à textarea
+var resultArea = document.getElementById('searchResult');
+resultArea.addEventListener('mousedown', handleResultAreaPress);
+resultArea.addEventListener('mouseup', handleResultAreaRelease);
+</script>
+
+    <div align="center">
+        <h2>Tutorial De Como Passar Pelo Encurtador Do Link</h2>
+    </div>
+    <center>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/j8-2QFinpV0" frameborder="1" style="display: block; margin-left: auto; margin-right: auto; border:   3px solid #800080;" allowfullscreen></iframe>
+    </center>
+
+</script>
+
+    <script src="script.js"></script>
+    
+</body>
+</html>

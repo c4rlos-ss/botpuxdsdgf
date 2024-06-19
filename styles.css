@@ -1,0 +1,154 @@
+
+
+.cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: black;
+    color: white;
+    width: 97%;
+    position: relative; /* Corrigido para 'relative' para permitir posicionamento absoluto do banner */
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgb(128,0,128);
+}
+
+.logo {
+    height: 60px;
+}
+
+.botao-contato {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.botao-contato:hover {
+    color: #800080;
+}
+
+.h-captcha {
+    display: block;
+    margin: 0 auto;
+    padding: 5px;
+}
+
+
+.banner img {
+    width: 100%; /* Faz com que o banner ocupe toda a largura da página */
+    height: auto; /* Mantém a proporção da imagem */
+    display: block; /* Remove espaços indesejados abaixo da imagem */
+    margin: 0; /* Remove todas as margens */
+}
+
+
+.container {
+    max-width:  600px;
+    margin: auto;
+    padding:  40px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.input-wrapper {
+    display: flex;
+    border-radius:  5px;
+    border: none;
+    background-color: #800080; /* Input background color purple */
+    color: white; /* Text color white */
+}
+
+select {
+    padding:  10px;
+    border-radius:  5px  0  0  5px;
+    border: none;
+    background-color: #800080; /* Select background color purple */
+    color: white; /* Text color white */
+}
+
+input[type=text] {
+    flex-grow:  1;
+    padding:  10px;
+    border-radius:  0  5px  5px  0;
+    border: none;
+    background-color: #800080; /* Input background color purple */
+    color: white; /* Text color white */
+}
+
+.h-captcha {
+    display: block;
+    margin:  35px  141px; /* Top/bottom margin of  35px, left/right margin of  20px */
+    padding:  5px; /* Add padding if necessary */
+}
+
+
+/* Modifique o estilo do botão de consulta */
+button {
+    display: block;
+    width:  69%; /* Torna o botão metade do tamanho original */
+    padding:  10px; /* Reduz o padding para manter o mesmo aspecto geral */
+    border-radius:  10px;
+    border: none;
+    background-color: #800080; /* Cor de fundo roxo */
+    color: white;
+    cursor: pointer;
+    opacity:  0.4; /* Semi-transparente */
+    pointer-events: none;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px; /* Move o botão mais próximo do elemento acima */
+}
+
+/* Mantenha o hover do botão */
+button:hover {
+    background-color: #970397; /* Cor roxa mais escura ao passar o mouse */
+}
+
+
+.result-container h2 {
+    font-size:  30px; /* Increase the font size of the title */
+}
+
+.result-container {
+    margin-top:  20px;
+    text-align: center; /* Center text horizontally */
+}
+
+.result-container .action-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.result-container .action-buttons button {
+    background-color: #800080;
+    color: white;
+    padding:  5px  10px; /* Smaller padding for buttons */
+    border: none;
+    cursor: pointer;
+    font-size:  4px; /* Smaller font size for buttons */
+    display: inline-block;
+}
+
+.result-container .action-buttons button:hover {
+    background-color: #800080; /* Dark purple when hovering */
+}
+
+#searchResult {
+    width:  94%;
+    height:  50px; /* Fixed height for one line of text */
+    font-size:  31px;
+    border:  0px solid #ccc;
+    border-radius:  15px;
+    padding:  13px;
+    resize: none; /* Prevent resizing of textarea */
+    overflow: hidden; /* Hide scrollbar */
+    background-color: #800080; /* Background color purple */
+    color: white; /* Text color white */
+}
+
+
+
